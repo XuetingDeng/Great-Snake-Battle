@@ -44,7 +44,7 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
 
   双人玩家对战模式
 
-* **Version 2**:
+* **Version 4**:
 
   server
 
