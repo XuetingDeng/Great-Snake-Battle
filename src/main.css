@@ -1,0 +1,13 @@
+/* 全局样式 */
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  /* margin: 0; */
+}
+canvas {
+  border: 3px solid rgb(203, 203, 203);
+}
