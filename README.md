@@ -29,7 +29,12 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
   蛇头经过自己不会判定身亡
   
   resest游戏：死亡后询问是否restart
-  蛇加速功能
+
+  food随机生成大量food，food总数固定
+
+  单机时候显示当前分数/蛇蛇长度
+
+  蛇加速功能*
 * **Version 2**:
   思考：是否需要修改蛇的方向控制
     
