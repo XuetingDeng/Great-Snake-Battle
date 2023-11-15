@@ -14,7 +14,35 @@ Call OpenAI’s API through Python.
 * **Communication**: 
 Use WebSocket or AJAX to achieve real-time communication between the front end and back end.
 * **Demo**: 
-Deploy this game using a cloud service. E.G.: AWS, Google Cloud.
+Deploy this game using a cloud service. E.G.: AWS, Google Cloud
+
+
+## Iteration
+* **Version 1**:
+  
+  实现单机游戏完整功能：
+  
+  蛇：蛇头+蛇身
+  
+  游戏结束：碰撞边界后散架
+  
+  蛇头经过自己不会判定身亡
+  
+  resest游戏：死亡后询问是否restart
+  蛇加速功能
+* **Version 2**:
+  思考：是否需要修改蛇的方向控制
+    
+  增加npc蛇
+  
+  碰到其他蛇身死亡
+  
+  npc死亡后散架身体变food
+  
+  身体==2*food
+* **Version 3**:
+
+  双人玩家对战模式
 
 ## Game Structure
 to be continued...
