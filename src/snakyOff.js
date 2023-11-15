@@ -35,6 +35,7 @@ function drawSnakePart(snakePart) {
     ctx.drawImage(snakePartImage, snakePart.x, snakePart.y, gridSize, gridSize);
 }
 //retrieve蛇蛇组成一条大蛇
+//后续增加蛇头
 function drawSnake() {
   snake.forEach(drawSnakePart);
 }
