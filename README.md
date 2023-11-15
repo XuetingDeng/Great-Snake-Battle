@@ -35,14 +35,13 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
   单机时候显示当前分数/蛇蛇长度
 
   蛇加速功能*
+  
 * **Version 2**:
-    
-  增加npc蛇
-  
-  碰到其他蛇身死亡
-  
-  npc死亡后散架身体变food
-  
+
+  双人玩家对战模式
+
+  撞击对方后的判定
+
   身体==2*food
 
   加速：左/右shift
@@ -51,6 +50,12 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
 * **Version 2.5**:
 
   UI设计
+* **Version 3**:
+    
+  增加npc蛇
+
+  接OpenAI api
+
 * **Version 3**:
 
   双人玩家对战模式
