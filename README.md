@@ -48,6 +48,9 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
   加速：左/右shift
 
   后端python存数据？
+* **Version 2.5**:
+
+  UI设计
 * **Version 3**:
 
   双人玩家对战模式
