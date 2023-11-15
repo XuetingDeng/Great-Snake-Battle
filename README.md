@@ -46,6 +46,8 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
   身体==2*food
 
   加速：左/右shift
+
+  后端python存数据？
 * **Version 3**:
 
   双人玩家对战模式
