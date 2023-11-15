@@ -36,7 +36,6 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
 
   蛇加速功能*
 * **Version 2**:
-  思考：是否需要修改蛇的方向控制
     
   增加npc蛇
   
@@ -45,6 +44,8 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
   npc死亡后散架身体变food
   
   身体==2*food
+
+  加速：左/右shift
 * **Version 3**:
 
   双人玩家对战模式
