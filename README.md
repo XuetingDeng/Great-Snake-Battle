@@ -46,6 +46,8 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
 
   加速：左/右shift
 
+  Login界面
+
   后端python存数据？
 * **Version 2.5**:
 
