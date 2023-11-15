@@ -49,6 +49,8 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
   Login界面
 
   后端python存数据？
+
+  前端蛇身叠加效果
 * **Version 2.5**:
 
   UI设计
