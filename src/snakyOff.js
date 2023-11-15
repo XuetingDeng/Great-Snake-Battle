@@ -1,27 +1,50 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const gridSize = 20;
-let snake = [{ x: 100, y: 100 }, { x: 80, y: 100 }, { x: 60, y: 100 }];
+const gridSize = 25;
+
+// 蛇的初始位置随机
+let snake  = createInitialSnake();
+function createInitialSnake() {
+    const startPosition = createRandomPosition();
+    return [
+        startPosition, {x: startPosition.x - gridSize, y: startPosition.y},
+        {x: startPosition.x - gridSize, y: startPosition.y},
+    ];
+}
+
+function createRandomPosition() {
+    const maxX = (canvas.width / gridSize) - 10;
+    const maxY = (canvas.height / gridSize) - 5;
+    const x = Math.floor(Math.random() * maxX) * gridSize;
+    const y = Math.floor(Math.random() * maxY) * gridSize;
+    return {x, y};
+}
+
+// 后续改成多个food随机分布
 let food = { x: 300, y: 300 };
+// 控制蛇蛇移动方向
 let dx = gridSize;
 let dy = 0;
 
-function drawSnakePart(snakePart) {
-  ctx.fillStyle = 'lightgreen';
-  ctx.strokeStyle = 'darkgreen';
-  ctx.fillRect(snakePart.x, snakePart.y, gridSize, gridSize);
-  ctx.strokeRect(snakePart.x, snakePart.y, gridSize, gridSize);
-}
 
+//画蛇蛇
+const snakePartImage = new Image();
+snakePartImage.src = './public/appearance/donut.png';
+//蛇的一小块
+function drawSnakePart(snakePart) {
+    ctx.drawImage(snakePartImage, snakePart.x, snakePart.y, gridSize, gridSize);
+}
+//retrieve蛇蛇组成一条大蛇
 function drawSnake() {
   snake.forEach(drawSnakePart);
 }
 
 function drawFood() {
-  ctx.fillStyle = 'red';
+  ctx.fillStyle = 'pink';
   ctx.fillRect(food.x, food.y, gridSize, gridSize);
 }
 
+//控制蛇蛇的移动
 function advanceSnake() {
   const head = { x: snake[0].x + dx, y: snake[0].y + dy };
   snake.unshift(head);
@@ -40,15 +63,6 @@ function clearCanvas() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-function main() {
-  setTimeout(function onTick() {
-    clearCanvas();
-    drawFood();
-    advanceSnake();
-    drawSnake();
-    main();
-  }, 100);
-}
 
 function changeDirection(event) {
   const LEFT_KEY = 37;
@@ -79,6 +93,16 @@ function changeDirection(event) {
     dy = gridSize;
   }
 }
+
+function main() {
+    setTimeout(function onTick() {
+      clearCanvas();
+      drawFood();
+      advanceSnake();
+      drawSnake();
+      main();
+    }, 100);
+  }
 
 document.addEventListener('keydown', changeDirection);
 main();

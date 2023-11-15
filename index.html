@@ -1,25 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Snake Game</title>
-<style>
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-    margin: 0;
-  }
-  canvas {
-    border: 1px solid black;
-  }
-</style>
+    <meta charset="UTF-8">
+
+    <!-- 控制页面在不同设备上的布局，后续要加一下，测试一下在不同人电脑上的显示情况-->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Great Snake Battle</title>
+
+    <!-- 这里写CSS style 后续再更新-->
+    <link rel="stylesheet" href="./src/main.css">
 </head>
+
 <body>
-<canvas id="gameCanvas" width="400" height="400"></canvas>
-<script src="./src/snakyOff.js"></script>
+    <!-- 页面内容如下 -->
+    <!-- 定义canvas画布 -->
+    <canvas id="gameCanvas" width="1000" height="500"></canvas>
+    <script src="./src/snakyOff.js"></script>
 </body>
 </html>
