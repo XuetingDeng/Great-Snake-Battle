@@ -29,15 +29,22 @@ let dy = 0;
 
 //画蛇蛇
 const snakePartImage = new Image();
+const snakeHeadImage = new Image();
 snakePartImage.src = './public/appearance/donut.png';
+snakeHeadImage.src = './public/appearance/dollarImage.png';
 //蛇的一小块
-function drawSnakePart(snakePart) {
-    ctx.drawImage(snakePartImage, snakePart.x, snakePart.y, gridSize, gridSize);
+function drawSnakePart(snakePart, idx) {
+    //idx是0 第一个元素则用蛇头图片，否，则用part图片
+    const image = idx === 0 ? snakeHeadImage : snakePartImage;
+    if(image.complete) {
+        ctx.drawImage(image, snakePart.x, snakePart.y, gridSize, gridSize);
+    }
+    //to do ... 可以增加一个图片unloading情况
 }
 //retrieve蛇蛇组成一条大蛇
 //后续增加蛇头
 function drawSnake() {
-  snake.forEach(drawSnakePart);
+  snake.forEach((part, idx) => drawSnakePart(part, idx));
 }
 
 function drawFood() {
@@ -106,4 +113,5 @@ function main() {
   }
 
 document.addEventListener('keydown', changeDirection);
+
 main();
