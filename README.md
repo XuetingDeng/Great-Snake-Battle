@@ -16,15 +16,24 @@ Use WebSocket or AJAX to achieve real-time communication between the front end a
 * **Demo**: 
 Deploy this game using a cloud service. E.G.: AWS, Google Cloud
 
+## Dev Process
+* **Git**: 
+
+  Always pull beta branch to local. Develop new features based on beta branch
+* **Branch**:
+
+  Create your onw branch based on beta. Naming format is: /Yourname/feature
 
 ## Iteration
 * **Version 1**:
   
   实现单机游戏完整功能：
   
-  蛇：蛇头+蛇身
+  蛇：蛇头+蛇身✅
   
-  游戏结束：碰撞边界后散架
+  游戏结束：碰撞边界后死亡✅
+
+  散架
   
   蛇头经过自己不会判定身亡
   
