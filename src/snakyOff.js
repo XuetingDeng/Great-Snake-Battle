@@ -1,6 +1,7 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const gridSize = 25;
+let snakeDeath = false; //设置初始蛇存活状态
 
 // 蛇的初始位置随机
 let snake  = createInitialSnake();
@@ -54,16 +55,21 @@ function drawFood() {
 
 //控制蛇蛇的移动
 function advanceSnake() {
-  const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-  snake.unshift(head);
+    if(snakeDeath) {
+        return; //死了就结束游戏
+    }
+    const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+    snake.unshift(head);
 
-  const didEatFood = snake[0].x === food.x && snake[0].y === food.y;
-  if (didEatFood) {
+    const didEatFood = snake[0].x === food.x && snake[0].y === food.y;
+    if (didEatFood) {
     food.x = Math.floor(Math.random() * canvas.width / gridSize) * gridSize;
     food.y = Math.floor(Math.random() * canvas.height / gridSize) * gridSize;
-  } else {
+    } else {
     snake.pop();
-  }
+    }
+
+    checkDeath();
 }
 
 function clearCanvas() {
@@ -102,14 +108,27 @@ function changeDirection(event) {
   }
 }
 
+function checkDeath() {
+    const head = snake[0];
+    if(head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
+        snakeDeath = true; //蛇死了
+    }
+}
+
 function main() {
+
+    if(snakeDeath) {
+        alert("Game Over");
+        return;
+    }
+
     setTimeout(function onTick() {
-      clearCanvas();
-      drawFood();
-      advanceSnake();
-      drawSnake();
-      main();
-    }, 100);
+        clearCanvas();
+        drawFood();
+        advanceSnake();
+        drawSnake();
+        main();
+    }, 150);
   }
 
 document.addEventListener('keydown', changeDirection);
