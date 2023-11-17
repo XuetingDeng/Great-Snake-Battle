@@ -31,7 +31,7 @@ let dy = 0;
 //画蛇蛇
 const snakePartImage = new Image();
 const snakeHeadImage = new Image();
-snakePartImage.src = './public/appearance/donut.png';
+snakePartImage.src = './public/appearance/cupcake.png';
 snakeHeadImage.src = './public/appearance/dollarImage.png';
 //蛇的一小块
 function drawSnakePart(snakePart, idx) {
