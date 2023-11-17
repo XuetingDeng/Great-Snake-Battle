@@ -155,9 +155,9 @@ function checkDeath() {
 }
 
 initializeFood();
-
+let snakeSpeed = 300; // 初始蛇的移动速度
 function main() {
-
+    
     if(snakeDeath) {
         alert("Game Over");
         return;
@@ -170,10 +170,22 @@ function main() {
         advanceSnake();
         drawSnake();
         main();
-    }, 150);//延迟150ms
+    }, snakeSpeed);//延迟150ms
 }
 
 //键盘按下事件监听器
 document.addEventListener('keydown', changeDirection);
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_RIGHT) {
+      // 如果按下的是右Shift键
+      snakeSpeed = 150; // 或者你想要的其他速度
+  }
+});
 
+document.addEventListener('keyup', function(event) {
+  if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_RIGHT) {
+      // 如果释放的是右Shift键
+      snakeSpeed = 300; // 恢复初始速度
+  }
+});
 main();
