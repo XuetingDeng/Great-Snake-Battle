@@ -8,6 +8,9 @@ const foodNum = 15;
 const foodColors = ['#b6dcb6', '#d2e9e1', '#fbedc9', '#f8dda9', '#fcb6d0', '#ffdee1', '#8ac6d1', '#d9d913'];//food color set
 let snakePlayer1 = {}; // 第一条蛇
 let snakePlayer2 = {}; // 第二条蛇
+const shiftLeft = "Shift2";
+const shiftRight = "Shift1";
+const accFactor = 2;
 
 // 蛇的初始位置随机
 function createInitialSnake() {
@@ -67,16 +70,6 @@ function initializeFood() {
   }
 }
 // initializeFood();
-
-// //food 随机颜色
-// function randomColor() {
-//     const idx = Math.floor(Math.random() * foodColors.length);
-//     return foodColors[idx];
-// }
-
-// 蛇蛇初始移动方向，永远往右to do... randomly move
-// let dx = gridSize;
-// let dy = 0;
 
 
 //画蛇蛇
@@ -193,6 +186,27 @@ function changeDirection(event) {
   }
 }
 
+function handleAcceleration (event) {
+    if(event.type === 'keydown' && (event.key + event.location) === shiftLeft) {
+        snakePlayer2.dx = Math.sign(snakePlayer2.dx) * gridSize * accFactor;
+        snakePlayer2.dy = Math.sign(snakePlayer2.dy) * gridSize * accFactor;
+    } else if (event.type === 'keyup' && (event.key + event.location) === shiftLeft) {
+        snakePlayer2.dx = Math.sign(snakePlayer2.dx) * gridSize;
+        snakePlayer2.dy = Math.sign(snakePlayer2.dy) * gridSize;
+    } else if (event.type === 'keydown' && (event.key + event.location) === shiftRight){
+        snakePlayer1.dx = Math.sign(snakePlayer1.dx) * gridSize * accFactor;
+        snakePlayer1.dy = Math.sign(snakePlayer1.dy) * gridSize * accFactor;
+    } else if (event.type === 'keyup' && (event.key + event.location) === shiftRight){
+        snakePlayer1.dx = Math.sign(snakePlayer1.dx) * gridSize;
+        snakePlayer1.dy = Math.sign(snakePlayer1.dy) * gridSize;
+    }
+}
+
+function moveDirection(event){
+    changeDirection(event);
+    handleAcceleration(event);
+}
+
 function checkDeath() {
   for(let snake of snakes){
     const head = snake.body[0];
@@ -256,7 +270,8 @@ function main() {
 }
 
 //键盘按下事件监听器
-document.addEventListener('keydown', changeDirection);
+document.addEventListener('keydown', moveDirection);
+document.addEventListener('keyup', moveDirection)
 // document.addEventListener('keydown', function (event) {
 //   if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_RIGHT) {
 //     // 如果按下的是右Shift键
