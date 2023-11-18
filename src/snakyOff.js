@@ -2,6 +2,8 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const gridSize = 25;
 let snakeDeath = false; //设置初始蛇存活状态
+let playerName = "player-1";
+let playerScore = 100;
 
 // 蛇的初始位置随机
 let snake  = createInitialSnake();
@@ -115,9 +117,43 @@ function checkDeath() {
     }
 }
 
+function saveScore(score, player_name) {
+  fetch('http://localhost:5000/save_score', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ player_name: player_name, score: score }),
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+}
+
+
+function displayScores() {
+  fetch('http://localhost:5000/get_scores')
+      .then(response => response.json())
+      .then(data => {
+          const scoresContainer = document.getElementById('scoresContainer');
+          scoresContainer.innerHTML = ''; // Clear previous scores
+
+          data.scores.forEach((score, index) => {
+              const playerScoreElement = document.createElement('div');
+              playerScoreElement.innerHTML = `<strong>${index + 1}. ${score.player_name}</strong>: ${score.score}`;
+              scoresContainer.appendChild(playerScoreElement);
+          });
+      })
+      .catch(error => console.error('Error:', error));
+}
+
+
 function main() {
 
     if(snakeDeath) {
+        // saveScore(snake.length - 3);
+        saveScore(playerName, playerScore);
+        displayScores()
         alert("Game Over");
         return;
     }
