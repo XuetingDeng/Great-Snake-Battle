@@ -5,6 +5,15 @@ let snakeDeath = false; //设置初始蛇存活状态
 let foodMultiple = []; // 生成food array
 const foodNum = 15;
 const foodColors = ['#b6dcb6', '#d2e9e1', '#fbedc9', '#f8dda9', '#fcb6d0', '#ffdee1', '#8ac6d1', '#d9d913'];//food color set
+//加速feature的const
+const ACC_Key = 'Shift';
+let accFactor = 2;
+//处理加速时候的const:
+let originalDx = gridSize;//因为一开始设定的是向右走
+let originalDy = 0;
+// 蛇蛇初始移动方向，永远往右to do... randomly move
+let dx = gridSize;
+let dy = 0;
 
 // 蛇的初始位置随机
 let snake  = createInitialSnake();
@@ -45,16 +54,6 @@ function initializeFood() {
     }
 }
 // initializeFood();
-
-// //food 随机颜色
-// function randomColor() {
-//     const idx = Math.floor(Math.random() * foodColors.length);
-//     return foodColors[idx];
-// }
-
-// 蛇蛇初始移动方向，永远往右to do... randomly move
-let dx = gridSize;
-let dy = 0;
 
 
 //画蛇蛇
@@ -131,19 +130,32 @@ function changeDirection(event) {
   if (keyPressed === LEFT_KEY && !goingRight) {
     dx = -gridSize;
     dy = 0;
-  }
-  if (keyPressed === UP_KEY && !goingDown) {
+  } else if (keyPressed === UP_KEY && !goingDown) {
     dx = 0;
     dy = -gridSize;
-  }
-  if (keyPressed === RIGHT_KEY && !goingLeft) {
+  } else if (keyPressed === RIGHT_KEY && !goingLeft) {
     dx = gridSize;
     dy = 0;
-  }
-  if (keyPressed === DOWN_KEY && !goingUp) {
+  } else if (keyPressed === DOWN_KEY && !goingUp) {
     dx = 0;
     dy = gridSize;
   }
+}
+
+function handleAcceleration(event) {
+    if(event.type === 'keydown' && event.key === ACC_Key) {
+        dx = Math.sign(dx) * gridSize * accFactor;
+        dy = Math.sign(dy) * gridSize * accFactor;
+    } else if (event.type === 'keyup' && event.key === ACC_Key) {
+        dx = Math.sign(dx) * gridSize;
+        dy = Math.sign(dy) * gridSize;
+    } 
+}
+
+
+function moveDirection(event) {
+    handleAcceleration(event);
+    changeDirection(event);
 }
 
 function checkDeath() {
@@ -155,7 +167,7 @@ function checkDeath() {
 }
 
 initializeFood();
-let snakeSpeed = 300; // 初始蛇的移动速度
+
 function main() {
     
     if(snakeDeath) {
@@ -170,22 +182,12 @@ function main() {
         advanceSnake();
         drawSnake();
         main();
-    }, snakeSpeed);//延迟150ms
+    }, 150);//延迟150ms
 }
 
 //键盘按下事件监听器
-document.addEventListener('keydown', changeDirection);
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_RIGHT) {
-      // 如果按下的是右Shift键
-      snakeSpeed = 150; // 或者你想要的其他速度
-  }
-});
+document.addEventListener('keyup', moveDirection);
+document.addEventListener('keydown',moveDirection);
 
-document.addEventListener('keyup', function(event) {
-  if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_RIGHT) {
-      // 如果释放的是右Shift键
-      snakeSpeed = 300; // 恢复初始速度
-  }
-});
+
 main();
