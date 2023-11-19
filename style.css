@@ -44,6 +44,20 @@
     height: 80px;
 }
 
+.allReadyContainer{
+    display: flex;
+    align-items: center;
+}
+
+.allReadyButton{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
 h1{
     font-size: 80px;
     text-align: center;
