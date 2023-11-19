@@ -1,3 +1,6 @@
+import player2SelectedSkin from "../skinSelect";
+import player1SelectedSkin from "../skinSelect";
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const gridSize = 25;
