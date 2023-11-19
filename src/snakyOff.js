@@ -12,6 +12,8 @@ let snakePlayer2 = {}; // 第二条蛇
 const shiftLeft = "Shift2";
 const shiftRight = "Shift1";
 const accFactor = 2;
+//NPC蛇数量
+const snakesNPCNum = 4;
 
 // 蛇的初始位置随机
 function createInitialSnake() {
@@ -81,6 +83,11 @@ const snakePartImage = new Image();
 const snakeHeadImage = new Image();
 snakePartImage.src = './public/appearance/star.png';
 snakeHeadImage.src = './public/appearance/head-user2.png';
+//npc snake:
+const snakeNPCPart = new Image();
+const snakeNPCHead = new Image();
+snakeNPCPart.src = './public/appearance/love.png';
+snakeNPCHead.src = './public/appearance/star.png';
 //蛇的一小块
 function drawSnakePart(snakePart, idx) {
   //idx是0 第一个元素则用蛇头图片，否，则用part图片
@@ -93,8 +100,17 @@ function drawSnakePart(snakePart, idx) {
 //retrieve蛇蛇组成一条大蛇
 //后续增加对应的蛇头
 function drawSnake(snake) {
-  if(!snake.isDead){
-    snake.body.forEach((part, idx) => drawSnakePart(part, idx));
+  // if(!snake.isDead){
+  //   snake.body.forEach((part, idx) => drawSnakePart(part, idx));
+  // }
+  if (!isSnakeNPC(snake)) {
+    if (!snake.isDead) {
+      snake.body.forEach((part, idx) => drawSnakePart(part, idx));
+    }
+  } else {
+    if (!snake.isDead) {
+      snake.body.forEach((part, idx) => drawSnakePartNPC(part, idx));
+    }
   }
 }
 
@@ -141,7 +157,7 @@ function advanceSnake(snake) {
 }
 
 function clearCanvas() {
-  ctx.fillStyle = 'white';
+  ctx.fillStyle = "rgb(47, 43, 72)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -261,11 +277,70 @@ function markSnakeDead(snake){
     };
     foodMultiple.push(food);
   }
+  if(isSnakeNPC(snake)){
+    let id = snake.id;
+    createSnakesNPC(id-10);
+  }
 }
 
+function drawSnakePartNPC(snakePart, idx) {
+  //idx是0 第一个元素则用蛇头图片，否，则用part图片
+  const image = idx === 0 ? snakeNPCHead : snakeNPCPart;
+  if (image.complete) {
+    ctx.drawImage(image, snakePart.x, snakePart.y, gridSize, gridSize);
+  }
+  //to do ... 可以增加一个图片unloading情况
+}
+
+function createSnakesNPC(num) {
+  const snakeNPC = {
+    id: 10 + num,
+    body: createInitialSnake(),
+    dx: gridSize,
+    dy: 0,
+    isDead: false
+  }
+  snakes.push(snakeNPC);
+}
+
+function isSnakeNPC(snake) {
+  if (snake.id == 1 || snake.id == 2) {
+    return false;
+  }
+  return true;
+}
+
+function changeDirectionNPC() {
+  for (let snake of snakes) {
+    if (isSnakeNPC(snake)) {
+      const randomNumber = Math.floor(Math.random() * 4);
+      console.log(randomNumber,snake)
+      if (randomNumber == 0 && !(snake.dx == gridSize)) {
+        snake.dx = -gridSize;
+        snake.dy = 0;
+      } else if (randomNumber == 1 && !(snake.dy == gridSize)) {
+        snake.dx = 0;
+        snake.dy = -gridSize;
+      }
+      else if (randomNumber == 2 && !(snake.dx == -gridSize)) {
+        snake.dx = gridSize;
+        snake.dy = 0;
+      }
+      else if (randomNumber == 3 && !(snake.dy == -gridSize)) {
+        snake.dx = 0;
+        snake.dy = gridSize;
+      }
+    }
+  }
+}
 
 initializeFood();
 initializeSnakes();
+
+for (let i = 0; i < snakesNPCNum; i++) {
+  createSnakesNPC(i);
+}
+
 function main() {
 
   if (snakePlayer1.isDead && snakePlayer2.isDead) {
@@ -281,6 +356,7 @@ function main() {
       advanceSnake(snake);
       drawSnake(snake);
     }
+    changeDirectionNPC();
     main();
   }, Math.min(300));//延迟150ms
   
