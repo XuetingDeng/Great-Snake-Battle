@@ -1,16 +1,18 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const gridSize = 25;
-let snakeDeath1 = false; //设置初始蛇存活状态
-let snakeDeath2 = false; //设置初始蛇存活状态
+
 let foodMultiple = []; // 生成food array
 const foodNum = 15;
 const foodColors = ['#b6dcb6', '#d2e9e1', '#fbedc9', '#f8dda9', '#fcb6d0', '#ffdee1', '#8ac6d1', '#d9d913'];//food color set
 let snakePlayer1 = {}; // 第一条蛇
 let snakePlayer2 = {}; // 第二条蛇
+let snakes = [];
 const shiftLeft = "Shift2";
 const shiftRight = "Shift1";
 const accFactor = 2;
+//NPC蛇数量
+const snakesNPCNum = 4;
 
 // 蛇的初始位置随机
 function createInitialSnake() {
@@ -22,20 +24,18 @@ function createInitialSnake() {
 }
 function initializeSnakes() {
   snakePlayer1 = {
-    id:1,
+    id: 1,
     body: createInitialSnake(),
     dx: gridSize,
     dy: 0,
-    speed: 500,
     isDead: false
   };
 
   snakePlayer2 = {
-    id:2,
+    id: 2,
     body: createInitialSnake(),
     dx: gridSize,
     dy: 0,
-    speed: 500,
     isDead: false
   };
 
@@ -77,6 +77,10 @@ const snakePartImage = new Image();
 const snakeHeadImage = new Image();
 snakePartImage.src = './public/appearance/moon.png';
 snakeHeadImage.src = './public/appearance/dollarImage.png';
+const snakeNPCPart = new Image();
+const snakeNPCHead = new Image();
+snakeNPCPart.src = './public/appearance/love.png';
+snakeNPCHead.src = './public/appearance/star.png';
 //蛇的一小块
 function drawSnakePart(snakePart, idx) {
   //idx是0 第一个元素则用蛇头图片，否，则用part图片
@@ -89,9 +93,16 @@ function drawSnakePart(snakePart, idx) {
 //retrieve蛇蛇组成一条大蛇
 //后续增加对应的蛇头
 function drawSnake(snake) {
-  if(!snake.isDead){
-    snake.body.forEach((part, idx) => drawSnakePart(part, idx));
+  if (!isSnakeNPC(snake)) {
+    if (!snake.isDead) {
+      snake.body.forEach((part, idx) => drawSnakePart(part, idx));
+    }
+  } else {
+    if (!snake.isDead) {
+      snake.body.forEach((part, idx) => drawSnakePartNPC(part, idx));
+    }
   }
+
 }
 
 function drawFood() {
@@ -186,29 +197,29 @@ function changeDirection(event) {
   }
 }
 
-function handleAcceleration (event) {
-    if(event.type === 'keydown' && (event.key + event.location) === shiftLeft) {
-        snakePlayer2.dx = Math.sign(snakePlayer2.dx) * gridSize * accFactor;
-        snakePlayer2.dy = Math.sign(snakePlayer2.dy) * gridSize * accFactor;
-    } else if (event.type === 'keyup' && (event.key + event.location) === shiftLeft) {
-        snakePlayer2.dx = Math.sign(snakePlayer2.dx) * gridSize;
-        snakePlayer2.dy = Math.sign(snakePlayer2.dy) * gridSize;
-    } else if (event.type === 'keydown' && (event.key + event.location) === shiftRight){
-        snakePlayer1.dx = Math.sign(snakePlayer1.dx) * gridSize * accFactor;
-        snakePlayer1.dy = Math.sign(snakePlayer1.dy) * gridSize * accFactor;
-    } else if (event.type === 'keyup' && (event.key + event.location) === shiftRight){
-        snakePlayer1.dx = Math.sign(snakePlayer1.dx) * gridSize;
-        snakePlayer1.dy = Math.sign(snakePlayer1.dy) * gridSize;
-    }
+function handleAcceleration(event) {
+  if (event.type === 'keydown' && (event.key + event.location) === shiftLeft) {
+    snakePlayer2.dx = Math.sign(snakePlayer2.dx) * gridSize * accFactor;
+    snakePlayer2.dy = Math.sign(snakePlayer2.dy) * gridSize * accFactor;
+  } else if (event.type === 'keyup' && (event.key + event.location) === shiftLeft) {
+    snakePlayer2.dx = Math.sign(snakePlayer2.dx) * gridSize;
+    snakePlayer2.dy = Math.sign(snakePlayer2.dy) * gridSize;
+  } else if (event.type === 'keydown' && (event.key + event.location) === shiftRight) {
+    snakePlayer1.dx = Math.sign(snakePlayer1.dx) * gridSize * accFactor;
+    snakePlayer1.dy = Math.sign(snakePlayer1.dy) * gridSize * accFactor;
+  } else if (event.type === 'keyup' && (event.key + event.location) === shiftRight) {
+    snakePlayer1.dx = Math.sign(snakePlayer1.dx) * gridSize;
+    snakePlayer1.dy = Math.sign(snakePlayer1.dy) * gridSize;
+  }
 }
 
-function moveDirection(event){
-    changeDirection(event);
-    handleAcceleration(event);
+function moveDirection(event) {
+  changeDirection(event);
+  handleAcceleration(event);
 }
 
 function checkDeath() {
-  for(let snake of snakes){
+  for (let snake of snakes) {
     const head = snake.body[0];
     //if snake's head is out of bound, die
     if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
@@ -218,8 +229,8 @@ function checkDeath() {
   }
 
 }
- // 检查蛇头是否与其他蛇的身体相撞
-function checkSnakeCollision(snake){
+// 检查蛇头是否与其他蛇的身体相撞
+function checkSnakeCollision(snake) {
   for (let otherSnake of snakes) {
     if (otherSnake !== snake) {
       const head = snake.body[0];
@@ -233,21 +244,81 @@ function checkSnakeCollision(snake){
   }
 }
 //标记蛇的死亡，在snakes中删去这个蛇，并转化为食物
-function markSnakeDead(snake){
+function markSnakeDead(snake) {
   snake.isDead = true;
   const index = snakes.indexOf(snake);
   if (index !== -1) {
     snakes.splice(index, 1);
   }
-  for(let part of snake.body){
-    const food ={x:part.x,y:part.y,color:'#b6dcb6'}
+  for (let part of snake.body) {
+    const food = { x: part.x, y: part.y, color: '#b6dcb6' }
     foodMultiple.push(food)
+  }
+  if(isSnakeNPC(snake)){
+    let id = snake.id;
+    createSnakesNPC(id-10);
+  }
+}
+function drawSnakePartNPC(snakePart, idx) {
+  //idx是0 第一个元素则用蛇头图片，否，则用part图片
+  const image = idx === 0 ? snakeNPCHead : snakeNPCPart;
+  if (image.complete) {
+    ctx.drawImage(image, snakePart.x, snakePart.y, gridSize, gridSize);
+  }
+  //to do ... 可以增加一个图片unloading情况
+}
+function createSnakesNPC(num) {
+  const snakeNPC = {
+    id: 10 + num,
+    body: createInitialSnake(),
+    dx: gridSize,
+    dy: 0,
+    isDead: false
+  }
+  snakes.push(snakeNPC);
+
+}
+function drawSnakeNPC(snake) {
+  if (!snake.isDead) {
+    snake.body.forEach((part, idx) => drawSnakePartNPC(part, idx));
+  }
+}
+function isSnakeNPC(snake) {
+  if (snake.id == 1 || snake.id == 2) {
+    return false;
+  }
+  return true;
+}
+function changeDirectionNPC() {
+  for (let snake of snakes) {
+    if (isSnakeNPC(snake)) {
+      const randomNumber = Math.floor(Math.random() * 4);
+      console.log(randomNumber,snake)
+      if (randomNumber == 0 && !(snake.dx == gridSize)) {
+        snake.dx = -gridSize;
+        snake.dy = 0;
+      } else if (randomNumber == 1 && !(snake.dy == gridSize)) {
+        snake.dx = 0;
+        snake.dy = -gridSize;
+      }
+      else if (randomNumber == 2 && !(snake.dx == -gridSize)) {
+        snake.dx = gridSize;
+        snake.dy = 0;
+      }
+      else if (randomNumber == 3 && !(snake.dy == -gridSize)) {
+        snake.dx = 0;
+        snake.dy = gridSize;
+      }
+    }
   }
 }
 
-
 initializeFood();
 initializeSnakes();
+for (let i = 0; i < snakesNPCNum; ++i) {
+  createSnakesNPC(i);
+}
+
 function main() {
 
   if (snakePlayer1.isDead && snakePlayer2.isDead) {
@@ -259,43 +330,18 @@ function main() {
     clearCanvas();
     // initializeFood(); to do... 后续可以改成随着固定的时间额外增加一丢丢food
     drawFood();
-    for(let snake of snakes){
+    for (let snake of snakes) {
       advanceSnake(snake);
       drawSnake(snake);
     }
+    changeDirectionNPC();
     main();
   }, Math.min(300));//延迟150ms
-  
+
 
 }
 
 //键盘按下事件监听器
 document.addEventListener('keydown', moveDirection);
 document.addEventListener('keyup', moveDirection)
-// document.addEventListener('keydown', function (event) {
-//   if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_RIGHT) {
-//     // 如果按下的是右Shift键
-//     snakeSpeed2 = 200; // 或者你想要的其他速度
-//   }
-// });
-
-// document.addEventListener('keyup', function (event) {
-//   if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_RIGHT) {
-//     // 如果释放的是右Shift键
-//     snakeSpeed2 =500; // 恢复初始速度
-//   }
-// });
-// document.addEventListener('keydown', function (event) {
-//   if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_LEFT) {
-//     // 如果按下的是左Shift键
-//     snakeSpeed1 = 200; // 或者你想要的其他速度
-//   }
-// });
-
-// document.addEventListener('keyup', function (event) {
-//   if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_LEFT) {
-//     // 如果释放的是左Shift键
-//     snakeSpeed1 = 500; // 恢复初始速度
-//   }
-// });
 main();
