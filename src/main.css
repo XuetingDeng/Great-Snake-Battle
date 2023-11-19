@@ -3,8 +3,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #ffffff;
-  /* background-color: #2f2b48; */
+  background-color: #6db8e9;
   margin: 0;
   padding: 0;
 }
@@ -35,18 +34,47 @@ button {
 
 .start-game-container{
   position: absolute; /* 绝对定位 */
-    top: 100%; /* 垂直位置，根据需要调整 */
-    left: 46%; /* 水平位置，根据需要调整 */
+    top: 95%; /* 垂直位置，根据需要调整 */
+    left: 30%; /* 水平位置，根据需要调整 */
     transform: translate(-50%, -50%); /* 使按钮居中 */
     z-index: 10; /* 确保按钮显示在图片之上 */
 }
 
+.sidebar-container-left {
+  width:80px; 
+  height: 670px; 
+  border-radius: 30px;
+  background-color: #f0a6ba; /* 您可以选择任何颜色 */
+  border: 8px solid rgb(187, 246, 226);
+}
+
+.sidebar-container-right {
+  /* margin-right: 10px; */
+  width: 80px; 
+  height: 670px; 
+  border-radius: 30px;
+  background-color: #f0a6ba;; 
+  border: 8px solid rgb(187, 246, 226);
+}
+
 .start-game-container img{
-  width: 150%;
+  width: 270%;
 }
 
 .start-game-button {
   cursor: pointer; /* 鼠标悬停时显示指针 */
+}
+
+#score-list {
+  list-style: none;
+  padding: 0;
+}
+
+#score-list li {
+  margin-bottom: 10px;
+  background: #eee;
+  padding: 5px;
+  border-radius: 8px;
 }
 
 .hidden {

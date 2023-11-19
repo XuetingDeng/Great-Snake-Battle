@@ -343,6 +343,29 @@ for (let i = 0; i < snakesNPCNum; i++) {
   createSnakesNPC(i);
 }
 
+function fetchScoresAndDisplay() {
+  fetch('https://snake-game-405604.ue.r.appspot.com/get_scores')
+      .then(response => response.json())
+      .then(data => {
+          // 仅获取前五名
+          const topScores = data.scoers.slice(0, 5);
+          // console.log(data);
+          displayScores(topScores);
+      })
+      .catch(error => console.error('Error fetching scores:', error));
+}
+
+function displayScores(scores) {
+  const scoreList = document.getElementById('score-list');
+  scoreList.innerHTML = ''; // 清空现有内容
+
+  scores.forEach(score => {
+      const scoreItem = document.createElement('li');
+      scoreItem.innerHTML = `Username: ${score.player_name} <br> Score: ${score.score}`;
+      scoreList.appendChild(scoreItem);
+  });
+}
+
 function main() {
   if (snakePlayer1.isDead && snakePlayer2.isDead) {
     // alert("Game Over Snake1&2 dead");
@@ -366,7 +389,8 @@ function main() {
 
 //键盘按下事件监听器
 document.addEventListener('keydown', moveDirection);
-document.addEventListener('keyup', moveDirection)
+document.addEventListener('keyup', moveDirection);
+document.addEventListener('DOMContentLoaded', fetchScoresAndDisplay);
 
 
 main();
