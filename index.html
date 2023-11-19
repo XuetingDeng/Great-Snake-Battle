@@ -9,6 +9,11 @@
 
     <!-- 这里写CSS style 后续再更新-->
     <link rel="stylesheet" href="./src/main.css">
+    <style>
+        #game-over-container {
+          display: none;
+        }
+      </style>
 </head>
 
 <body>
@@ -25,11 +30,42 @@
     </div>
     
     <script src="./src/snakyOff.js"></script>
-    <!-- <div id="game-over-container" class="hidden">
+    <div id="game-over-container" class="hidden">
         <div class="game-over-content">
-            <p>游戏结束</p>
-            <button id="restart-button">重新开始</button>
+            <!-- <p>游戏结束</p> -->
+            <!-- <div className="gameOverImg"> -->
+                <img src="./public/appearance/gameOver.png" alt="game over">
+            <!-- </div> -->
+            
+            <div class="score-container">
+                <div class="player-score" id="player1-score">
+                  <div class="score-label" id ="player1">Player 1</div>
+                  <div class="score-value" id ="score1">Score: 100</div>
+                  <div class="kill-value" id ="kill1">Kill Enemies: 0</div>
+                </div>
+                
+                <div class="player-score" id="player2-score">
+                  <div class="score-label" id ="player2">Player 2</div>
+                  <div class="score-value" id ="score2">Score: 150</div>
+                  <div class="kill-value" id ="kill2">Kill Enemies: 0</div>
+                </div>
+              </div>
+            <button id="restart-button">Restart</button>
+            <script>
+                // 获取按钮元素
+                var redirectButton = document.getElementById('restart-button');
+            
+                // 添加按钮点击事件处理程序
+                redirectButton.addEventListener('click', function() {
+                  // 设置新的页面 URL
+                  window.location.href = 'startGame.html';
+                //   <a href="index.html">
+                  
+                  // 如果你想要在当前页面加载一个新页面，可以使用以下代码：
+                  // window.location.assign('https://example.com/new-page');
+                });
+              </script>
         </div>
-    </div> -->
+    </div>
 </body>
 </html>

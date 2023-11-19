@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 控制页面在不同设备上的布局，后续要加一下，测试一下在不同人电脑上的显示情况-->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Great Snake Battle</title>
+
+    <!-- 这里写CSS style 后续再更新-->
+    <link rel="stylesheet" href="./src/main.css">
+</head>
+
+<body>
+    <!-- 页面内容如下 -->
+    <!-- 定义canvas画布 -->
+    <!-- <canvas id="gameCanvas" width="1200" height="680"></canvas>
+     -->
+    <div class="game-container">
+        <div class="score-column">
+            <!-- 放置分数记录的内容 -->
+        </div>
+        <div class="playScore-container">
+            <div id="player1-score" class="score-player">Player 1: 0</div>
+            <div id="player2-score" class="score-player">Player 2: 0</div>
+        </div>
+        <canvas id="gameCanvas" width="800" height="600">
+
+        </canvas>
+        <div class="indicator-column">
+            <!-- 放置指示的内容 -->
+        </div>
+    </div>
+    <!-- <script src="./src/snakyOff.js"></script>
+    <script src="./src/scoreList.js" defer></script> -->
+        <!-- 引入 snakyOff.js -->
+        <script type="module" src="./src/snakyOff.js" defer></script>
+        <!-- 引入 score.js -->
+        <script type="module" src="./src/score.js" defer></script>
+</body>
+
+</html>

@@ -83,14 +83,15 @@ button {
 
 #game-over-container {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 20%;
+  left: 15%;
+  /* right:-20%; */
+  width: 900px;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  /* background-color: rgba(0, 0, 0, 0.5); 半透明背景 */
 }
 
 .game-over-content {
@@ -99,4 +100,44 @@ button {
   text-align: center;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+/* .gameOverImg{
+  width: 100px;
+  height: 30px;
+} */
+.img {
+  width: 200px; /* 调整宽度为你需要的大小 */
+  height: 30px; /* 自动保持宽高比 */
+}
+.score-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.player-score {
+  position: relative;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+  width: 150px;
+}
+
+.score-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.score-value {
+  font-size: 18px;
+}
+.kill-value {
+  font-size: 18px;
+}
+/* 可选：为了美观，添加一些动画效果 */
+.player-score:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out;
 }

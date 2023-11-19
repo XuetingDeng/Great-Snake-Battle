@@ -31,7 +31,9 @@ function initializeSnakes() {
     dx: gridSize,
     dy: 0,
     speed: 500,
-    isDead: false
+    isDead: false,
+    score:0,
+    killEnemies:0,
   };
 
   snakePlayer2 = {
@@ -40,7 +42,9 @@ function initializeSnakes() {
     dx: gridSize,
     dy: 0,
     speed: 500,
-    isDead: false
+    isDead: false,
+    score:0,
+    killEnemies:0,
   };
 
   snakes = [snakePlayer1, snakePlayer2];
@@ -151,6 +155,7 @@ function advanceSnake(snake) {
     //create new random food
     foodMultiple.splice(didEatFood, 1);
     foodMultiple.push(createRandomFood());
+    snake.score++;
   } else {
     //没吃到food, pop出snake[]最后一个元素
     snake.body.pop();
@@ -259,6 +264,10 @@ function checkSnakeCollision(snake){
       for (let part of otherSnake.body) {
         if (head.x === part.x && head.y === part.y) {
           markSnakeDead(snake);
+          if(!isSnakeNPC(otherSnake)){
+            otherSnake.score+=5;
+            otherSnake.killEnemies++;
+          }
           return;
         }
       }
@@ -347,14 +356,35 @@ function fetchScoresAndDisplay() {
   fetch('https://snake-game-405604.ue.r.appspot.com/get_scores')
       .then(response => response.json())
       .then(data => {
+        console.log("fetchScoresAndDisplay",data)
           // 仅获取前五名
-          const topScores = data.scoers.slice(0, 5);
+          //排序
+          let sortedScores = data.scores.sort((a, b) => b.score - a.score);
+          const topScores = sortedScores.slice(0, 5);
           // console.log(data);
           displayScores(topScores);
       })
       .catch(error => console.error('Error fetching scores:', error));
 }
-
+function sendScoreToServer(snake) {
+  const scoreData = {
+    player_name: 'Player1',
+    score: snake.score,
+  };
+  fetch('https://snake-game-405604.ue.r.appspot.com/save_score', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json', // 声明发送的数据是 JSON 格式
+    },
+    body: JSON.stringify(scoreData), // 将数据转换为 JSON 字符串
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Score successfully sent:', data);
+    // 如果有需要，可以在成功发送后执行其他操作
+  })
+  .catch(error => console.error('Error sending score:', error));
+}
 function displayScores(scores) {
   const scoreList = document.getElementById('score-list');
   scoreList.innerHTML = ''; // 清空现有内容
@@ -365,11 +395,35 @@ function displayScores(scores) {
       scoreList.appendChild(scoreItem);
   });
 }
+function updateScore() {
+  // 获取显示分数的元素
+  let score1 = document.getElementById('score1');
+  let score2 = document.getElementById('score2');
+  let player1 = document.getElementById('player1');
+  let player2 = document.getElementById('player2');
+  let kill1 = document.getElementById('kill1');
+  let kill2 = document.getElementById('kill2');
+
+  // 更新分数
+  score1.textContent = 'Score: ' + snakePlayer1.score;
+  score2.textContent = 'Score: ' + snakePlayer2.score;
+  player1.textContent = 'Player1: ' + snakePlayer1.id;
+  player2.textContent = 'Player2: ' + snakePlayer2.id;
+  kill1.textContent = 'Kill enemies: ' + snakePlayer1.killEnemies;
+  kill2.textContent = 'Kill enemies: ' + snakePlayer2.killEnemies;
+}
 
 function main() {
   if (snakePlayer1.isDead && snakePlayer2.isDead) {
     // alert("Game Over Snake1&2 dead");
-    document.getElementById('game-over-container').classList.remove('hidden');
+    // document.getElementById('game-over-container').classList.remove('hidden');
+    const div = document.getElementById('game-over-container');
+    
+
+    div.style.display = 'block';
+    updateScore();
+    sendScoreToServer(snakePlayer1);
+    sendScoreToServer(snakePlayer2);
     return;
   }
 
