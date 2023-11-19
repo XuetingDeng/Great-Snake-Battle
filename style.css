@@ -114,6 +114,22 @@ body {
     background-color: #ffc494;
 }
 
+.input-container{
+    display: grid;
+    justify-content: space-evenly;
+    justify-items: center;
+    align-content: space-evenly;
+    align-items: center;
+
+}
+
+.custom-input{
+    width: 200px;
+    height: 30px;
+    text-align: center;
+    font-size: 20px;
+}
+
 h1{
     font-size: 60px;
     text-align: center;
