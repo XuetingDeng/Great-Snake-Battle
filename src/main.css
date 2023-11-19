@@ -100,11 +100,20 @@ button {
   text-align: center;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  
 }
-/* .gameOverImg{
-  width: 100px;
-  height: 30px;
-} */
+.gameOverImgDiv{
+  display: flex;
+  align-items: center;
+}
+
+.gameOverImg{
+  width: 500px;
+  height: 300px;
+  margin-top: 10px;
+  margin-left: 180px;
+  margin-bottom: 50px;
+}
 .img {
   width: 200px; /* 调整宽度为你需要的大小 */
   height: 30px; /* 自动保持宽高比 */
