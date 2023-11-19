@@ -1,0 +1,90 @@
+/* Style for the skin selection container */
+#skinSelectionContainer {
+    display: flex;
+    justify-content: space-between; /* Split into two columns */
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+    padding: 0 20px; /* Add some padding to space out the columns */
+}
+
+/* Style for each skin selection option */
+.skinOption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    flex: 1; /* Equal width for both columns */
+    max-width: 45%; /* Limit maximum width to prevent overlap */
+}
+
+/* Style for skin images */
+.skinImage {
+    width: 100px; /* Adjust the width as needed */
+    height: auto;
+}
+
+/* Style for the "Ready" button */
+.readyButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* Style for the "Ready" button on hover */
+.readyButton:hover {
+    background-color: #45a049;
+}
+
+.selection{
+    width: 80px;
+    height: 80px;
+}
+
+.allReadyContainer{
+    display: flex;
+    align-items: center;
+}
+
+.allReadyButton{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+h1{
+    font-size: 80px;
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+label{
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Style for table cells (td) */
+td {
+    border: 50px solid #ffffff;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Style for images */
+img {
+    width: 150px;
+    max-width: 100%;
+    height: auto;
+}

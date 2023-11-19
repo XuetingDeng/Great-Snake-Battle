@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game Skin Selection</title>
+    <link rel="stylesheet" href="style.css"> <!-- Include the CSS file -->
+</head>
+<body>
+
+    <h1>Select Skin</h1>
+
+    <div id="skinSelectionContainer">
+        <div class="skinOption">
+            <label for="player1Skin">Player 1 Skin:</label>
+                <table>
+                    <tr>
+                        <td><button class="selection" onclick="selectPlayer1Skin('./public/appearance/cupcake.png')"><img src = './public/appearance/cupcake.png'/></button></td>
+                        <td><button class="selection" onclick="selectPlayer1Skin('./public/appearance/dollarImage.png')"><img src = './public/appearance/dollarImage.png'/></button></td>
+                        <td><button class="selection" onclick="selectPlayer1Skin('./public/appearance/donut.png')"><img src = './public/appearance/donut.png'/></button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="selection" onclick="selectPlayer1Skin('./public/appearance/moon.png')"><img src = './public/appearance/moon.png'/></button></td>
+                        <td><button class="selection" onclick="selectPlayer1Skin('./public/appearance/star.png')"><img src = './public/appearance/star.png'/></button></td>
+                        <td><button class="selection" onclick="selectPlayer1Skin('./public/appearance/strawberry.png')"><img src = './public/appearance/strawberry.png'/></button></td>
+                    </tr>
+                </table>
+                <!-- Add more skin options as needed -->
+            <button class="readyButton" onclick="player1Ready()">Ready</button>
+        </div>
+
+        <div class="skinOption">
+            <label for="player2Skin">Player 2 Skin:</label>
+            <table>
+                <tr>
+                    <td><button class="selection" onclick="selectPlayer2Skin('./public/appearance/cupcake.png')"><img src = './public/appearance/cupcake.png'/></button></td>
+                    <td><button class="selection" onclick="selectPlayer2Skin('./public/appearance/dollarImage.png')"><img src = './public/appearance/dollarImage.png'/></button></td>
+                    <td><button class="selection" onclick="selectPlayer2Skin('./public/appearance/donut.png')"><img src = './public/appearance/donut.png'/></button></td>
+                </tr>
+                <tr>
+                    <td><button class="selection" onclick="selectPlayer2Skin('./public/appearance/moon.png')"><img src = './public/appearance/moon.png'/></button></td>
+                    <td><button class="selection" onclick="selectPlayer2Skin('./public/appearance/star.png')"><img src = './public/appearance/star.png'/></button></td>
+                    <td><button class="selection" onclick="selectPlayer2Skin('./public/appearance/strawberry.png')"><img src = './public/appearance/strawberry.png'/></button></td>
+                </tr>
+            </table>
+            <button class="readyButton" onclick="player2Ready()">Ready</button>
+        </div>
+    </div>
+    <div class = "allReadyContainer">
+        <button class="allReadyButton" onclick="allReady()">All Ready</button>
+    </div>
+
+    <!-- Include your game canvas here -->
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+
+    <!-- Your JavaScript code for applying skins and handling player readiness goes here -->
+    <script type = "module" src = "skinSelect.js"></script>
+
+</body>
+</html>
