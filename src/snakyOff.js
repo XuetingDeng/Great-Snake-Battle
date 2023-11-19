@@ -4,8 +4,9 @@ const gridSize = 25;
 let snakeDeath1 = false; //设置初始蛇存活状态
 let snakeDeath2 = false; //设置初始蛇存活状态
 let foodMultiple = []; // 生成food array
-const foodNum = 15;
-const foodColors = ['#b6dcb6', '#d2e9e1', '#fbedc9', '#f8dda9', '#fcb6d0', '#ffdee1', '#8ac6d1', '#d9d913'];//food color set
+const foodNum = 20;
+const foodImages = ['./public/food/food1.png','./public/food/food2.png','./public/food/food3.png','./public/food/food4.png','./public/food/food5.png','./public/food/food6.png','./public/food/food7.png','./public/food/food8.png'];
+let foodImagesObjects = {};
 let snakePlayer1 = {}; // 第一条蛇
 let snakePlayer2 = {}; // 第二条蛇
 const shiftLeft = "Shift2";
@@ -49,17 +50,17 @@ function createRandomPosition() {
   return { x, y };
 }
 
+function randomImage() {
+  const idx = Math.floor(Math.random() * foodImages.length);
+  return foodImages[idx];
+}
+
 //多个food随机分布
 function createRandomFood() {
-  const randomColor = () => {
-    const idx = Math.floor(Math.random() * foodColors.length);
-    return foodColors[idx];
-  };
-
   return {
     x: Math.floor(Math.random() * canvas.width / gridSize) * gridSize,
     y: Math.floor(Math.random() * canvas.height / gridSize) * gridSize,
-    color: randomColor()
+    image: randomImage()
   };
 }
 
@@ -75,8 +76,8 @@ function initializeFood() {
 //画蛇蛇
 const snakePartImage = new Image();
 const snakeHeadImage = new Image();
-snakePartImage.src = './public/appearance/moon.png';
-snakeHeadImage.src = './public/appearance/dollarImage.png';
+snakePartImage.src = './public/appearance/star.png';
+snakeHeadImage.src = './public/appearance/head-user2.png';
 //蛇的一小块
 function drawSnakePart(snakePart, idx) {
   //idx是0 第一个元素则用蛇头图片，否，则用part图片
@@ -94,14 +95,24 @@ function drawSnake(snake) {
   }
 }
 
-function drawFood() {
-  foodMultiple.forEach(
-    function (food) {
-      ctx.fillStyle = food.color;
-      ctx.fillRect(food.x, food.y, gridSize, gridSize);
-    }
-  )
+function preloadFoodImages() {
+  for (let src of foodImages) {
+      let img = new Image();
+      img.src = src;
+      foodImagesObjects[src] = img;
+  }
 }
+
+function drawFood() {
+  foodMultiple.forEach(food => {
+    let foodImage = foodImagesObjects[food.image];
+    if (foodImage && foodImage.complete) {
+      ctx.drawImage(foodImage, food.x, food.y, gridSize, gridSize);
+    } 
+  });
+}
+
+preloadFoodImages();
 
 //控制蛇蛇的移动
 function advanceSnake(snake) {
@@ -240,8 +251,12 @@ function markSnakeDead(snake){
     snakes.splice(index, 1);
   }
   for(let part of snake.body){
-    const food ={x:part.x,y:part.y,color:'#b6dcb6'}
-    foodMultiple.push(food)
+    const food ={
+      x:part.x,
+      y:part.y,
+      image: randomImage() 
+    };
+    foodMultiple.push(food);
   }
 }
 
@@ -272,30 +287,6 @@ function main() {
 //键盘按下事件监听器
 document.addEventListener('keydown', moveDirection);
 document.addEventListener('keyup', moveDirection)
-// document.addEventListener('keydown', function (event) {
-//   if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_RIGHT) {
-//     // 如果按下的是右Shift键
-//     snakeSpeed2 = 200; // 或者你想要的其他速度
-//   }
-// });
 
-// document.addEventListener('keyup', function (event) {
-//   if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_RIGHT) {
-//     // 如果释放的是右Shift键
-//     snakeSpeed2 =500; // 恢复初始速度
-//   }
-// });
-// document.addEventListener('keydown', function (event) {
-//   if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_LEFT) {
-//     // 如果按下的是左Shift键
-//     snakeSpeed1 = 200; // 或者你想要的其他速度
-//   }
-// });
 
-// document.addEventListener('keyup', function (event) {
-//   if (event.key === 'Shift' && event.location === KeyboardEvent.DOM_KEY_LOCATION_LEFT) {
-//     // 如果释放的是左Shift键
-//     snakeSpeed1 = 500; // 恢复初始速度
-//   }
-// });
 main();
