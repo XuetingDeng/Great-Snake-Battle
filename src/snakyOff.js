@@ -4,7 +4,7 @@ const gridSize = 25;
 let snakeDeath1 = false; //设置初始蛇存活状态
 let snakeDeath2 = false; //设置初始蛇存活状态
 let foodMultiple = []; // 生成food array
-const foodNum = 20;
+const foodNum = 30;
 const foodImages = ['./public/food/food1.png','./public/food/food2.png','./public/food/food3.png','./public/food/food4.png','./public/food/food5.png','./public/food/food6.png','./public/food/food7.png','./public/food/food8.png'];
 let foodImagesObjects = {};
 let snakePlayer1 = {}; // 第一条蛇
@@ -21,6 +21,7 @@ function createInitialSnake() {
     { x: startPosition.x - gridSize, y: startPosition.y },
   ];
 }
+
 function initializeSnakes() {
   snakePlayer1 = {
     id:1,
@@ -71,7 +72,9 @@ function initializeFood() {
   }
 }
 // initializeFood();
-
+// function increaseFood() {
+//   foodMultiple.push(createRandomFood());
+// }
 
 //画蛇蛇
 const snakePartImage = new Image();
@@ -281,7 +284,6 @@ function main() {
     main();
   }, Math.min(300));//延迟150ms
   
-
 }
 
 //键盘按下事件监听器
