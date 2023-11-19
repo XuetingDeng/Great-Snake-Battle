@@ -5,7 +5,7 @@ let snakeDeath1 = false; //设置初始蛇存活状态
 let snakeDeath2 = false; //设置初始蛇存活状态
 let foodMultiple = []; // 生成food array
 const foodNum = 30;
-const foodImages = ['./public/food/food1.png','./public/food/food2.png','./public/food/food3.png','./public/food/food4.png','./public/food/food5.png','./public/food/food6.png','./public/food/food7.png','./public/food/food8.png'];
+const foodImages = ['./public/food/food1.png', './public/food/food2.png', './public/food/food3.png', './public/food/food4.png', './public/food/food5.png', './public/food/food6.png', './public/food/food7.png', './public/food/food8.png'];
 let foodImagesObjects = {};
 let snakePlayer1 = {}; // 第一条蛇
 let snakePlayer2 = {}; // 第二条蛇
@@ -26,25 +26,29 @@ function createInitialSnake() {
 
 function initializeSnakes() {
   snakePlayer1 = {
-    id:1,
+    id: 1,
     body: createInitialSnake(),
     dx: gridSize,
     dy: 0,
     speed: 500,
     isDead: false,
-    score:0,
-    killEnemies:0,
+    score: 0,
+    killEnemies: 0,
+    snakeHeadImage: "./public/appearance/head-user1.png",
+    snakePartImage: localStorage.getItem('player1SelectedSkin'),
   };
 
   snakePlayer2 = {
-    id:2,
+    id: 2,
     body: createInitialSnake(),
     dx: gridSize,
     dy: 0,
     speed: 500,
     isDead: false,
-    score:0,
-    killEnemies:0,
+    score: 0,
+    killEnemies: 0,
+    snakeHeadImage: "./public/appearance/head-user2.png",
+    snakePartImage: localStorage.getItem('player2SelectedSkin'),
   };
 
   snakes = [snakePlayer1, snakePlayer2];
@@ -86,19 +90,25 @@ function initializeFood() {
 // }
 
 //画蛇蛇
-const snakePartImage = new Image();
-const snakeHeadImage = new Image();
-snakePartImage.src = './public/appearance/star.png';
-snakeHeadImage.src = './public/appearance/head-user2.png';
-//npc snake:
 const snakeNPCPart = new Image();
 const snakeNPCHead = new Image();
 snakeNPCPart.src = './public/appearance/love.png';
 snakeNPCHead.src = './public/appearance/star.png';
 //蛇的一小块
-function drawSnakePart(snakePart, idx) {
+function drawSnakePart(snakePart, idx,snakeId) {
+  const snakePartImage = new Image();
+  const snakeHeadImage = new Image();
+  if(snakeId==1){
+    snakePartImage.src = snakePlayer1.snakePartImage;
+    snakeHeadImage.src = snakePlayer1.snakeHeadImage;
+  }else if(snakeId==2){
+    snakePartImage.src = snakePlayer2.snakePartImage;
+    snakeHeadImage.src = snakePlayer2.snakeHeadImage;
+  }
+
   //idx是0 第一个元素则用蛇头图片，否，则用part图片
   const image = idx === 0 ? snakeHeadImage : snakePartImage;
+  // const image = idx === 0 ? snakeHeadImage : snakePartImage;
   if (image.complete) {
     ctx.drawImage(image, snakePart.x, snakePart.y, gridSize, gridSize);
   }
@@ -110,9 +120,13 @@ function drawSnake(snake) {
   // if(!snake.isDead){
   //   snake.body.forEach((part, idx) => drawSnakePart(part, idx));
   // }
+  let snakeId = snake.id;
   if (!isSnakeNPC(snake)) {
     if (!snake.isDead) {
-      snake.body.forEach((part, idx) => drawSnakePart(part, idx));
+      for(let i=0;i<snake.body.length;++i){
+        drawSnakePart(snake.body[i], i,snakeId);
+      }
+      // snake.body.forEach((part, idx) => drawSnakePart(part, idx,snakeId));
     }
   } else {
     if (!snake.isDead) {
@@ -123,9 +137,9 @@ function drawSnake(snake) {
 
 function preloadFoodImages() {
   for (let src of foodImages) {
-      let img = new Image();
-      img.src = src;
-      foodImagesObjects[src] = img;
+    let img = new Image();
+    img.src = src;
+    foodImagesObjects[src] = img;
   }
 }
 
@@ -134,7 +148,7 @@ function drawFood() {
     let foodImage = foodImagesObjects[food.image];
     if (foodImage && foodImage.complete) {
       ctx.drawImage(foodImage, food.x, food.y, gridSize, gridSize);
-    } 
+    }
   });
 }
 
@@ -224,29 +238,29 @@ function changeDirection(event) {
   }
 }
 
-function handleAcceleration (event) {
-    if(event.type === 'keydown' && (event.key + event.location) === shiftLeft) {
-        snakePlayer2.dx = Math.sign(snakePlayer2.dx) * gridSize * accFactor;
-        snakePlayer2.dy = Math.sign(snakePlayer2.dy) * gridSize * accFactor;
-    } else if (event.type === 'keyup' && (event.key + event.location) === shiftLeft) {
-        snakePlayer2.dx = Math.sign(snakePlayer2.dx) * gridSize;
-        snakePlayer2.dy = Math.sign(snakePlayer2.dy) * gridSize;
-    } else if (event.type === 'keydown' && (event.key + event.location) === shiftRight){
-        snakePlayer1.dx = Math.sign(snakePlayer1.dx) * gridSize * accFactor;
-        snakePlayer1.dy = Math.sign(snakePlayer1.dy) * gridSize * accFactor;
-    } else if (event.type === 'keyup' && (event.key + event.location) === shiftRight){
-        snakePlayer1.dx = Math.sign(snakePlayer1.dx) * gridSize;
-        snakePlayer1.dy = Math.sign(snakePlayer1.dy) * gridSize;
-    }
+function handleAcceleration(event) {
+  if (event.type === 'keydown' && (event.key + event.location) === shiftLeft) {
+    snakePlayer2.dx = Math.sign(snakePlayer2.dx) * gridSize * accFactor;
+    snakePlayer2.dy = Math.sign(snakePlayer2.dy) * gridSize * accFactor;
+  } else if (event.type === 'keyup' && (event.key + event.location) === shiftLeft) {
+    snakePlayer2.dx = Math.sign(snakePlayer2.dx) * gridSize;
+    snakePlayer2.dy = Math.sign(snakePlayer2.dy) * gridSize;
+  } else if (event.type === 'keydown' && (event.key + event.location) === shiftRight) {
+    snakePlayer1.dx = Math.sign(snakePlayer1.dx) * gridSize * accFactor;
+    snakePlayer1.dy = Math.sign(snakePlayer1.dy) * gridSize * accFactor;
+  } else if (event.type === 'keyup' && (event.key + event.location) === shiftRight) {
+    snakePlayer1.dx = Math.sign(snakePlayer1.dx) * gridSize;
+    snakePlayer1.dy = Math.sign(snakePlayer1.dy) * gridSize;
+  }
 }
 
-function moveDirection(event){
-    changeDirection(event);
-    handleAcceleration(event);
+function moveDirection(event) {
+  changeDirection(event);
+  handleAcceleration(event);
 }
 
 function checkDeath() {
-  for(let snake of snakes){
+  for (let snake of snakes) {
     const head = snake.body[0];
     //if snake's head is out of bound, die
     if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
@@ -256,16 +270,16 @@ function checkDeath() {
   }
 
 }
- // 检查蛇头是否与其他蛇的身体相撞
-function checkSnakeCollision(snake){
+// 检查蛇头是否与其他蛇的身体相撞
+function checkSnakeCollision(snake) {
   for (let otherSnake of snakes) {
     if (otherSnake !== snake) {
       const head = snake.body[0];
       for (let part of otherSnake.body) {
         if (head.x === part.x && head.y === part.y) {
           markSnakeDead(snake);
-          if(!isSnakeNPC(otherSnake)){
-            otherSnake.score+=5;
+          if (!isSnakeNPC(otherSnake)) {
+            otherSnake.score += 5;
             otherSnake.killEnemies++;
           }
           return;
@@ -275,23 +289,23 @@ function checkSnakeCollision(snake){
   }
 }
 //标记蛇的死亡，在snakes中删去这个蛇，并转化为食物
-function markSnakeDead(snake){
+function markSnakeDead(snake) {
   snake.isDead = true;
   const index = snakes.indexOf(snake);
   if (index !== -1) {
     snakes.splice(index, 1);
   }
-  for(let part of snake.body){
-    const food ={
-      x:part.x,
-      y:part.y,
-      image: randomImage() 
+  for (let part of snake.body) {
+    const food = {
+      x: part.x,
+      y: part.y,
+      image: randomImage()
     };
     foodMultiple.push(food);
   }
-  if(isSnakeNPC(snake)){
+  if (isSnakeNPC(snake)) {
     let id = snake.id;
-    createSnakesNPC(id-10);
+    createSnakesNPC(id - 10);
   }
 }
 
@@ -326,7 +340,6 @@ function changeDirectionNPC() {
   for (let snake of snakes) {
     if (isSnakeNPC(snake)) {
       const randomNumber = Math.floor(Math.random() * 4);
-      console.log(randomNumber,snake)
       if (randomNumber == 0 && !(snake.dx == gridSize)) {
         snake.dx = -gridSize;
         snake.dy = 0;
@@ -354,17 +367,16 @@ for (let i = 0; i < snakesNPCNum; i++) {
 
 function fetchScoresAndDisplay() {
   fetch('https://snake-game-405604.ue.r.appspot.com/get_scores')
-      .then(response => response.json())
-      .then(data => {
-        console.log("fetchScoresAndDisplay",data)
-          // 仅获取前五名
-          //排序
-          let sortedScores = data.scores.sort((a, b) => b.score - a.score);
-          const topScores = sortedScores.slice(0, 5);
-          // console.log(data);
-          displayScores(topScores);
-      })
-      .catch(error => console.error('Error fetching scores:', error));
+    .then(response => response.json())
+    .then(data => {
+      console.log("fetchScoresAndDisplay", data)
+      // 仅获取前五名
+      //排序
+      let sortedScores = data.scores.sort((a, b) => b.score - a.score);
+      const topScores = sortedScores.slice(0, 5);
+      displayScores(topScores);
+    })
+    .catch(error => console.error('Error fetching scores:', error));
 }
 function sendScoreToServer(snake) {
   const scoreData = {
@@ -378,21 +390,21 @@ function sendScoreToServer(snake) {
     },
     body: JSON.stringify(scoreData), // 将数据转换为 JSON 字符串
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Score successfully sent:', data);
-    // 如果有需要，可以在成功发送后执行其他操作
-  })
-  .catch(error => console.error('Error sending score:', error));
+    .then(response => response.json())
+    .then(data => {
+      console.log('Score successfully sent:', data);
+      // 如果有需要，可以在成功发送后执行其他操作
+    })
+    .catch(error => console.error('Error sending score:', error));
 }
 function displayScores(scores) {
   const scoreList = document.getElementById('score-list');
   scoreList.innerHTML = ''; // 清空现有内容
 
   scores.forEach(score => {
-      const scoreItem = document.createElement('li');
-      scoreItem.innerHTML = `Username: ${score.player_name} <br> Score: ${score.score}`;
-      scoreList.appendChild(scoreItem);
+    const scoreItem = document.createElement('li');
+    scoreItem.innerHTML = `Username: ${score.player_name} <br> Score: ${score.score}`;
+    scoreList.appendChild(scoreItem);
   });
 }
 function updateScore() {
@@ -418,7 +430,7 @@ function main() {
     // alert("Game Over Snake1&2 dead");
     // document.getElementById('game-over-container').classList.remove('hidden');
     const div = document.getElementById('game-over-container');
-    
+
 
     div.style.display = 'block';
     updateScore();
@@ -431,14 +443,14 @@ function main() {
     clearCanvas();
     // initializeFood(); to do... 后续可以改成随着固定的时间额外增加一丢丢food
     drawFood();
-    for(let snake of snakes){
+    for (let snake of snakes) {
       advanceSnake(snake);
       drawSnake(snake);
     }
     changeDirectionNPC();
     main();
   }, Math.min(300));//延迟150ms
-  
+
 }
 
 //键盘按下事件监听器
