@@ -1,4 +1,35 @@
 /* Style for the skin selection container */
+
+@font-face {
+    font-family: 'PixelFont'; /* Name your font */
+    src: url('./public/font/ARCADECLASSIC.TTF') format('truetype'); /* Path to your font file */
+    /* Include other formats as needed */
+}
+
+h1, h2, h3, p {
+    font-family: 'PixelFont', sans-serif;
+}
+
+h1 {
+    font-size: 150px;
+    text-align: center;
+    color: #ff9f3e; /* Set your desired color */
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 阴影 */
+    -webkit-text-stroke: 1px #000000; /* 描边 */
+}
+
+h2, h3, p {
+    color: #ff9f3e; /* Set your desired color */
+}
+
+body {
+    background-image: url('./public/design/skin-page.png'); /* Adjust the path as necessary */
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    font-family: 'PixelFont', sans-serif; /* Apply the font to the body */
+}
+
 #skinSelectionContainer {
     display: flex;
     justify-content: space-between; /* Split into two columns */
@@ -24,19 +55,35 @@
     height: auto;
 }
 
+.skinImage:hover {
+    filter: brightness(60%); /* 鼠标悬停时图片变暗 */
+}
+
+.selectedHover {
+    filter: brightness(60%); /* 图片被选中后保持暗化效果 */
+}
+
 /* Style for the "Ready" button */
 .readyButton {
-    background-color: #4CAF50;
+    border-radius: 10px;
+    background-color: #ffad65;
     color: white;
     border: none;
     padding: 10px 20px;
     margin-top: 10px;
     cursor: pointer;
+    font-family: 'PixelFont', sans-serif; /* 使用像素风格字体 */
+    font-size: 26px;
+    border: 5px solid #ff8725; /* 外部描边，2像素宽度，黑色 */
 }
 
 /* Style for the "Ready" button on hover */
 .readyButton:hover {
-    background-color: #45a049;
+    background-color: #ffc494;
+}
+
+.readyButtonClicked:hover {
+    background-color: #ffc494;
 }
 
 .selection{
@@ -47,15 +94,24 @@
 .allReadyContainer{
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .allReadyButton{
-    background-color: #4CAF50;
+    border-radius: 10px;
+    background-color: #ffad65;
     color: white;
     border: none;
     padding: 10px 20px;
     margin-top: 10px;
     cursor: pointer;
+    font-size: 30px;
+    border: 5px solid #ff8725;
+    font-family: 'PixelFont', sans-serif;
+}
+
+.allReadyButton:hover {
+    background-color: #ffc494;
 }
 
 h1{
@@ -89,3 +145,7 @@ img {
     max-width: 100%;
     height: auto;
 }
+/* 
+.selectedSkin {
+    border: 5px solid #ff9f3e; 
+} */

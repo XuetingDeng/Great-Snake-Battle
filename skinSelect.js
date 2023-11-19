@@ -55,3 +55,60 @@ function allReady() {
 
 // module.exports = player1SelectedSkin;
 // module.exports = player2SelectedSkin; 
+
+// document.addEventListener("DOMContentLoaded", function() {
+//     const skinImages = document.querySelectorAll('.skinImage');
+
+//     skinImages.forEach(img => {
+//         img.addEventListener('click', function() {
+//             // 移除所有其他图片的特殊类
+//             skinImages.forEach(img => {
+//                 img.classList.remove('selectedSkin');
+//                 img.classList.remove('selectedHover');
+//             });
+
+//             // 为被点击的图片添加类
+//             this.classList.add('selectedSkin');
+//             this.classList.add('selectedHover');
+//         });
+//     });
+// });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const skinImagesPlayer1 = document.querySelectorAll('.skinOption:nth-child(1) .skinImage');
+    const skinImagesPlayer2 = document.querySelectorAll('.skinOption:nth-child(2) .skinImage');
+    let selectedSkinPlayer1 = null;
+    let selectedSkinPlayer2 = null;
+
+    function updateSkinSelection(images, selectedSkin, otherPlayerSkin) {
+        images.forEach(img => {
+            img.addEventListener('click', function() {
+                if (selectedSkin) {
+                    selectedSkin.classList.remove('selectedSkin');
+                    selectedSkin.classList.remove('selectedHover');
+                }
+                this.classList.add('selectedSkin');
+                this.classList.add('selectedHover');
+                selectedSkin = this;
+
+                if (otherPlayerSkin) {
+                    otherPlayerSkin.classList.add('selectedHover');
+                }
+            });
+        });
+    }
+
+    updateSkinSelection(skinImagesPlayer1, selectedSkinPlayer1, selectedSkinPlayer2);
+    updateSkinSelection(skinImagesPlayer2, selectedSkinPlayer2, selectedSkinPlayer1);
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const readyButtons = document.querySelectorAll('.readyButton');
+
+    readyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 为被点击的按钮添加类
+            this.classList.add('readyButtonClicked');
+        });
+    });
+});
