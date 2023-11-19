@@ -45,6 +45,9 @@ function initializeSnakes() {
 
   snakes = [snakePlayer1, snakePlayer2];
 }
+
+initializeSnakes();
+
 function createRandomPosition() {
   const maxX = (canvas.width / gridSize) - 10;
   const maxY = (canvas.height / gridSize) - 5;
@@ -335,16 +338,15 @@ function changeDirectionNPC() {
 }
 
 initializeFood();
-initializeSnakes();
 
 for (let i = 0; i < snakesNPCNum; i++) {
   createSnakesNPC(i);
 }
 
 function main() {
-
   if (snakePlayer1.isDead && snakePlayer2.isDead) {
-    alert("Game Over Snake1&2 dead");
+    // alert("Game Over Snake1&2 dead");
+    document.getElementById('game-over-container').classList.remove('hidden');
     return;
   }
 
