@@ -2,6 +2,8 @@
 // 存储变量到 localStorage
 localStorage.setItem('player1SelectedSkin', "./public/appearance/moon.png");
 localStorage.setItem('player2SelectedSkin', "./public/appearance/star.png");
+localStorage.setItem('player1Name', "Player1");
+localStorage.setItem('player2Name', "Player2");
 
 // Function to handle player 1 skin selection
 function selectPlayer1Skin(skin) {
@@ -16,6 +18,10 @@ function selectPlayer2Skin(skin) {
 }
 
 function player1Ready() {
+    let username = document.getElementById('username1').value;
+    if(username){
+        localStorage.setItem('player1Name', username);
+    }
     if (localStorage.getItem('player1SelectedSkin')) {
         // Player 1 is ready with the selected skin
         // You can trigger the game to start or perform other actions
@@ -27,6 +33,10 @@ function player1Ready() {
 }
 
 function player2Ready() {
+    let username = document.getElementById('username2').value;
+    if(username){
+        localStorage.setItem('player2Name', username);
+    }
     if (localStorage.getItem('player2SelectedSkin')) {
         // Player 2 is ready with the selected skin
         // You can trigger the game to start or perform other actions

@@ -36,6 +36,7 @@ function initializeSnakes() {
     killEnemies: 0,
     snakeHeadImage: "./public/appearance/head-user1.png",
     snakePartImage: localStorage.getItem('player1SelectedSkin'),
+    name:localStorage.getItem('player1Name')
   };
 
   snakePlayer2 = {
@@ -49,6 +50,7 @@ function initializeSnakes() {
     killEnemies: 0,
     snakeHeadImage: "./public/appearance/head-user2.png",
     snakePartImage: localStorage.getItem('player2SelectedSkin'),
+    name:localStorage.getItem('player2Name')
   };
 
   snakes = [snakePlayer1, snakePlayer2];
@@ -380,7 +382,7 @@ function fetchScoresAndDisplay() {
 }
 function sendScoreToServer(snake) {
   const scoreData = {
-    player_name: 'Player1',
+    player_name: snake.name,
     score: snake.score,
   };
   fetch('https://snake-game-405604.ue.r.appspot.com/save_score', {
@@ -419,8 +421,8 @@ function updateScore() {
   // 更新分数
   score1.textContent = 'Score: ' + snakePlayer1.score;
   score2.textContent = 'Score: ' + snakePlayer2.score;
-  player1.textContent = 'Player1: ' + snakePlayer1.id;
-  player2.textContent = 'Player2: ' + snakePlayer2.id;
+  player1.textContent = 'Player1: ' + snakePlayer1.name;
+  player2.textContent = 'Player2: ' + snakePlayer2.name;
   kill1.textContent = 'Kill enemies: ' + snakePlayer1.killEnemies;
   kill2.textContent = 'Kill enemies: ' + snakePlayer2.killEnemies;
 }
