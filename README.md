@@ -40,11 +40,11 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
 
   散架
   
-  蛇头经过自己不会判定身亡✅
+  蛇头经过自己不会判定身亡
   
   resest游戏：死亡后询问是否restart
 
-  food随机生成大量food，food总数固定✅
+  food随机生成大量food，food总数固定
 
   单机时候显示当前分数/蛇蛇长度
 
@@ -77,10 +77,3 @@ Deploy this game using a cloud service. E.G.: AWS, Google Cloud
 * **Version 3**:
 
   双人玩家对战模式
-
-* **Version 4**:
-
-  server
-
-## Game Structure
-to be continued...
