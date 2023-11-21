@@ -380,6 +380,7 @@ function fetchScoresAndDisplay() {
     })
     .catch(error => console.error('Error fetching scores:', error));
 }
+
 function sendScoreToServer(snake) {
   const scoreData = {
     player_name: snake.name,
@@ -433,7 +434,6 @@ function main() {
     // document.getElementById('game-over-container').classList.remove('hidden');
     const div = document.getElementById('game-over-container');
 
-
     div.style.display = 'block';
     updateScore();
     sendScoreToServer(snakePlayer1);
@@ -451,7 +451,7 @@ function main() {
     }
     changeDirectionNPC();
     main();
-  }, Math.min(300));//延迟150ms
+  }, Math.min(300));
 
 }
 

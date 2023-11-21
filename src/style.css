@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: 'PixelFont'; /* Name your font */
-    src: url('./public/font/ARCADECLASSIC.TTF') format('truetype'); /* Path to your font file */
+    src: url('../public/font/ARCADECLASSIC.TTF') format('truetype'); /* Path to your font file */
     /* Include other formats as needed */
 }
 
@@ -23,7 +23,7 @@ h2, h3, p {
 }
 
 body {
-    background-image: url('./public/design/skin-page.png'); /* Adjust the path as necessary */
+    background-image: url('../public/design/skin-page.png'); /* Adjust the path as necessary */
     background-size: cover; /* Cover the entire viewport */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
@@ -72,9 +72,9 @@ body {
     padding: 10px 20px;
     margin-top: 10px;
     cursor: pointer;
-    font-family: 'PixelFont', sans-serif; /* 使用像素风格字体 */
+    font-family: 'PixelFont', sans-serif;
     font-size: 26px;
-    border: 5px solid #ff8725; /* 外部描边，2像素宽度，黑色 */
+    border: 5px solid #ff8725;
 }
 
 /* Style for the "Ready" button on hover */
@@ -82,9 +82,13 @@ body {
     background-color: #ffc494;
 }
 
-.readyButtonClicked:hover {
-    background-color: #ffc494;
+.readyButtonClicked {
+    background-color: #ffc494; 
 }
+
+/* .readyButtonClicked:hover {
+    background-color: #ffc494;
+} */
 
 .selection{
     width: 80px;

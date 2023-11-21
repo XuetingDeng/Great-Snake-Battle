@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     readyButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // 为被点击的按钮添加类
+            //add‘readyButtonCliched for the cliched button to hold the hovor’
             this.classList.add('readyButtonClicked');
         });
     });
